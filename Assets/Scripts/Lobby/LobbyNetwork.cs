@@ -35,7 +35,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks
     public void Ready()
     {
         lobbyManager.ActivePanelLobby();
-        PhotonNetwork.JoinRandomRoom();
+        //PhotonNetwork.JoinRandomRoom();
         Debug.Log("Ready");
     }
 

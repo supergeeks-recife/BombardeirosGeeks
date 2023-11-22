@@ -368,6 +368,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &571708943 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1472472652999056701, guid: 326c4194cb9b770449bb83742ece96b2, type: 3}
+  m_PrefabInstance: {fileID: 1472472653372134139}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &883615000
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,14 +418,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelLogin: {fileID: 1472472653372134141}
-  panelLobby: {fileID: 919652171}
+  panelLobby: {fileID: 571708943}
   playerName: {fileID: 28910045}
   connectionStatus: {fileID: 365573490}
---- !u!1 &919652171 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5205272509816114858, guid: 326c4194cb9b770449bb83742ece96b2, type: 3}
-  m_PrefabInstance: {fileID: 1472472653372134139}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1110353272
 GameObject:
   m_ObjectHideFlags: 0
