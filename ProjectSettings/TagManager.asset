@@ -7,6 +7,7 @@ TagManager:
   - Explosion
   - Blocks/Indestructible
   - Blocks/Destructible
+  - Joystick
   layers:
   - Default
   - TransparentFX

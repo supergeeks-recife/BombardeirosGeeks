@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GeradorDeCenario : MonoBehaviour
@@ -15,8 +16,10 @@ public class GeradorDeCenario : MonoBehaviour
 
     [Header("Paredes")]
     [SerializeField] GameObject[] ListaParedes;
+    public List<Transform> ListaSpawn;
     [Range(0f, 1f)]
     [SerializeField] float chanceDeGerarParede;
+
 
     void Start()
     {
@@ -56,6 +59,10 @@ public class GeradorDeCenario : MonoBehaviour
         {
             int indiceAleatorio = Random.Range(0, ListaParedes.Length);
             GameObject clone = Instantiate(ListaParedes[indiceAleatorio], positionToSpawn, rotationToSpawn);
+            if(clone.gameObject.name == "SpawnPoint(Clone)")
+            {
+                ListaSpawn.Add(clone.transform);
+            }
         }
 
     }

@@ -58,7 +58,25 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks
 
         PhotonNetwork.CreateRoom(roomName, newOptions, TypedLobby.Default);
         Debug.Log("Room Name: " + roomName);
-        SceneManager.LoadScene("Game");
-        
+        PhotonNetwork.JoinRoom(roomName);
+
+    }
+
+    //Buttons
+    public void CreateRoom()
+    {
+        RoomOptions newOptions = new RoomOptions()
+        {
+            IsOpen = true,
+            IsVisible = true,
+            MaxPlayers = 2
+        };
+        PhotonNetwork.CreateRoom(lobbyManager.createRoomName.text, newOptions, TypedLobby.Default);
+        PhotonNetwork.JoinRoom(lobbyManager.createRoomName.text);
+    }
+
+    public void JoinRoom()
+    {
+        PhotonNetwork.JoinRoom(lobbyManager.joinRoomName.text);
     }
 }

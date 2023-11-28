@@ -12,6 +12,10 @@ public class LobbyManager : MonoBehaviour
 
     [Header("Lobby Inputs")]
     public TMP_InputField playerName;
+    public TMP_InputField createRoomName;
+    public TMP_InputField joinRoomName;
+
+    [Header("Feedbacks")]
     public TMP_Text connectionStatus;
 
     void Start()

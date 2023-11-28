@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -35,6 +36,10 @@ public class PlayerMovement : MonoBehaviour
     //Tipo de controle que vai usar
     [SerializeField] InputType inputType;
 
+    private void Start()
+    {
+        joystick = GameObject.FindGameObjectWithTag("Joystick").GetComponent<Joystick>();
+    }
     // Update is called once per frame
     void Update()
     {
