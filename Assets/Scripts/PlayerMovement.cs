@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -36,9 +37,12 @@ public class PlayerMovement : MonoBehaviour
     //Tipo de controle que vai usar
     [SerializeField] InputType inputType;
 
+    PhotonView myPV;
+
     private void Start()
     {
         joystick = GameObject.FindGameObjectWithTag("Joystick").GetComponent<Joystick>();
+        myPV = GetComponent<PhotonView>();
     }
     // Update is called once per frame
     void Update()
@@ -63,26 +67,30 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        //Se o botão estiver pressionado
-        if(direction.magnitude > 0.1f)
+        if (myPV.IsMine)
         {
-            //Ângulo em radianos dos eixos x e z e transformado em graus
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            //Suavizar a angulação
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-            //Aplicar a direção e velocidade no Character Controller
-            controller.Move(direction * speedMovement * Time.deltaTime);
-        }
-        
-        //Aplicar a direção no verificar de movimentação
-        isMoving = direction.magnitude;
-        int intMove = (int)isMoving;
-        //Caso exista um controlador de animação
-        if (animator != null)
-            //Animations
-            animator.SetFloat("isMoving", isMoving);
+            //Se o botão estiver pressionado
+            if (direction.magnitude > 0.1f)
+            {
+                //Ângulo em radianos dos eixos x e z e transformado em graus
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+                //Suavizar a angulação
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                //Aplicar a direção e velocidade no Character Controller
+                controller.Move(direction * speedMovement * Time.deltaTime);
+            }
+
+            //Aplicar a direção no verificar de movimentação
+            isMoving = direction.magnitude;
+            int intMove = (int)isMoving;
+            //Caso exista um controlador de animação
+            if (animator != null)
+                //Animations
+                animator.SetFloat("isMoving", isMoving);
             //animator.SetInteger("intMove", intMove);
+        }
+
     }
 }
 

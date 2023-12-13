@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
-using UnityEngine.SceneManagement;
+
 
 public class LobbyNetwork : MonoBehaviourPunCallbacks
 {
@@ -42,7 +42,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
-        SceneManager.LoadScene("Game");
+        PhotonNetwork.LoadLevel("Game2");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

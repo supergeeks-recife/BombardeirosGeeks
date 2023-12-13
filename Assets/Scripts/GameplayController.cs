@@ -10,6 +10,6 @@ public class GameplayController : MonoBehaviour
     void Start()
     {
         spawnPoints = geradorInstance.ListaSpawn;
-        PhotonNetwork.Instantiate(myPlayer.name, spawnPoints[Random.Range(0, spawnPoints.Count)].position, Quaternion.identity);
+        PhotonNetwork.Instantiate(myPlayer.name, spawnPoints[Random.Range(0, spawnPoints.Count -1)].position, Quaternion.identity);
     }
 }

@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using Photon.Realtime;
+using Photon.Pun;
 
 public class GeradorDeCenario : MonoBehaviour
 {
@@ -13,17 +14,39 @@ public class GeradorDeCenario : MonoBehaviour
 
     [Header("Piso")]
     [SerializeField] GameObject[] ListaPiso;
+    GameObject blocoPiso;
 
     [Header("Paredes")]
     [SerializeField] GameObject[] ListaParedes;
-    public List<Transform> ListaSpawn;
+    GameObject blocoParede;
+
     [Range(0f, 1f)]
     [SerializeField] float chanceDeGerarParede;
 
+    [Header("Spawn")]
+    public List<Transform> ListaSpawn;
+
+    [Header("Map")]
+    public List<PartMap> map;
+
+    [Header("Player")]
+    Player player;
+
+    void Awake()
+    {
+        map = new List<PartMap>();
+        player = PhotonNetwork.LocalPlayer;
+        
+        if(player.IsMasterClient && player != null)
+        {
+            GerarGradePiso();
+        }
+        
+    }
 
     void Start()
     {
-        GerarGradePiso();
+        //GerarGradePiso();
     }
 
     void Update()
@@ -42,6 +65,16 @@ public class GeradorDeCenario : MonoBehaviour
 
                 Vector3 spawnPositionEnvironment = new Vector3(x * gridSpacingOffset, 2f, z * gridSpacingOffset) + gridOrigin;
                 GerarParedes(spawnPositionEnvironment, Quaternion.identity);
+
+                PartMap partMap = new PartMap
+                {
+                    chao = blocoPiso,
+                    spawnPositionChao = spawnPositionFloor,
+                    parede = blocoParede,
+                    spawnPositionParede = spawnPositionEnvironment
+                };
+
+                map.Add(partMap);
             }
         }
     }
@@ -49,7 +82,9 @@ public class GeradorDeCenario : MonoBehaviour
     void GerarPiso(Vector3 positionToSpawn, Quaternion rotationToSpawn)
     {
         int indiceAleatorio = Random.Range(0, ListaPiso.Length);
-        GameObject clone = Instantiate(ListaPiso[indiceAleatorio], positionToSpawn, rotationToSpawn);
+        blocoPiso = PhotonNetwork.Instantiate(ListaPiso[indiceAleatorio].name, positionToSpawn, rotationToSpawn);
+
+        //blocoPiso = Instantiate(ListaPiso[indiceAleatorio], positionToSpawn, rotationToSpawn);
     }
 
     void GerarParedes(Vector3 positionToSpawn, Quaternion rotationToSpawn)
@@ -58,12 +93,24 @@ public class GeradorDeCenario : MonoBehaviour
         if(chanceDeGerar <= chanceDeGerarParede)
         {
             int indiceAleatorio = Random.Range(0, ListaParedes.Length);
-            GameObject clone = Instantiate(ListaParedes[indiceAleatorio], positionToSpawn, rotationToSpawn);
-            if(clone.gameObject.name == "SpawnPoint(Clone)")
+            blocoParede = PhotonNetwork.Instantiate(ListaParedes[indiceAleatorio].name, positionToSpawn, rotationToSpawn);
+            //blocoParede = Instantiate(ListaParedes[indiceAleatorio], positionToSpawn, rotationToSpawn);
+
+            //Select spawn points
+            if (blocoParede.gameObject.name == "SpawnPoint(Clone)")
             {
-                ListaSpawn.Add(clone.transform);
+                ListaSpawn.Add(blocoParede.transform);
             }
         }
 
     }
+}
+
+[System.Serializable]
+public class PartMap
+{
+    public GameObject chao;
+    public Vector3 spawnPositionChao;
+    public GameObject parede;
+    public Vector3 spawnPositionParede;
 }
